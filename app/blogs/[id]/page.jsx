@@ -8,23 +8,25 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { BsInstagram } from "react-icons/bs";
 import Footer from "@/components/Footer";
 import Link from 'next/link';
+import axios from "axios";
 
 function page({ params }) {
   const [data, setData] = useState(null);
-
-  const fetchBlogData = () => {
-    for (let i = 0; i < blog_data.length; i++) {
-      if (Number(params.id) === blog_data[i].id) {
-        setData(blog_data[i]);
-        console.log(blog_data[i]);
-        break;
+  const fetchBlogData=async()=>{
+    const response=await axios.get('/api/blog',{
+      params:{
+        id:params.id
       }
-    }
-  };
+    })
+    setData(response.data.blog);
+  }
 
-  useEffect(() => {
+  useEffect(() => { 
     fetchBlogData();
-  }, []);
+  }
+  , []);
+
+  console.log(data,"data from blog page");
 
   return data ? (
     <>
@@ -165,5 +167,3 @@ function page({ params }) {
 }
 
 export default page;
-
-//sQdlsN2oHZQnWHxv
